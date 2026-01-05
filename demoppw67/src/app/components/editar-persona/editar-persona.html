@@ -1,0 +1,8 @@
+<h2>Editar Persona</h2>
+
+<form (ngSubmit)="actualizar()">
+  <input [(ngModel)]="persona.cedula" name="cedula" placeholder="Cédula" readonly>
+  <input [(ngModel)]="persona.nombre" name="nombre" placeholder="Nombre" required>
+  <input [(ngModel)]="persona.direccion" name="direccion" placeholder="Dirección" required>
+  <button type="submit">Actualizar</button>
+</form>

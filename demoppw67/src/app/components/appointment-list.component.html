@@ -1,0 +1,13 @@
+<h1>Lista de Appointments</h1>
+
+<ul>
+  <li *ngFor="let a of appointments">
+    <strong>ID:</strong> {{ a.id }} <br>
+    <strong>Fecha:</strong> {{ a.date }} <br>
+    <strong>Hora:</strong> {{ a.time }} <br>
+    <strong>Cliente:</strong> {{ a.client.persona.nombre }} ({{ a.client.email }}) <br>
+    <strong>Programador:</strong> {{ a.programmer.persona.nombre }} ({{ a.programmer.email }}) <br>
+    <strong>Status:</strong> {{ a.status.name }} <br>
+    <hr>
+  </li>
+</ul>

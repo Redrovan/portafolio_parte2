@@ -1,0 +1,21 @@
+<h2>Registrar Producto</h2>
+<form (ngSubmit)="guardar()" [class]="estilo">
+    <div>
+        <label for="codigo">Código</label>
+        <input type="text" id="codigo" name="codigo" required [(ngModel)]="producto.codigo"/>
+    </div>
+    <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required [(ngModel)]="producto.nombre"/>
+    </div>
+    <div>
+        <label for="stock">Stock</label>
+        <input type="number" id="stock" name="stock" required [(ngModel)]="producto.stock"/>
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+        <button type="reset">Borrar</button>
+    </div>
+
+    {{producto.nombre}}
+</form>

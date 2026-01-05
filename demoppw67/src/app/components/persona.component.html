@@ -1,0 +1,20 @@
+<h1>Lista de Personas</h1>
+
+<div *ngIf="cargando">
+  <p>Cargando...</p>
+</div>
+
+<div *ngIf="mensaje && !cargando">
+  <p>{{ mensaje }}</p>
+</div>
+
+<ul *ngIf="!cargando && personas.length > 0">
+  <li *ngFor="let p of personas">
+    <strong>Nombre:</strong> {{ p.nombre }} <br />
+    <strong>Cédula:</strong> {{ p.cedula }} <br />
+    <strong>Dirección:</strong> {{ p.direccion }} <br />
+
+    <button (click)="eliminar(p.cedula)">Eliminar</button>
+    <button (click)="editar(p.cedula)">Editar</button>
+  </li>
+</ul>

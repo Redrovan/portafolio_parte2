@@ -1,0 +1,8 @@
+<h2>Crear Persona</h2>
+
+<form (ngSubmit)="crear()">
+  <input [(ngModel)]="persona.cedula" name="cedula" placeholder="Cédula" required>
+  <input [(ngModel)]="persona.nombre" name="nombre" placeholder="Nombre" required>
+  <input [(ngModel)]="persona.direccion" name="direccion" placeholder="Dirección" required>
+  <button type="submit">Crear</button>
+</form>

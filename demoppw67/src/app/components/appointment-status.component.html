@@ -1,0 +1,19 @@
+<div class="container">
+
+  <h2>Estados de Appointment</h2>
+
+  <div>
+    <input [(ngModel)]="name" placeholder="Nuevo estado" />
+    <button (click)="save()">Guardar</button>
+  </div>
+
+  <hr/>
+
+  <ul>
+    <li *ngFor="let s of list">
+      {{ s.id }} - {{ s.name }}
+      <button (click)="delete(s.id)">Eliminar</button>
+    </li>
+  </ul>
+
+</div>
