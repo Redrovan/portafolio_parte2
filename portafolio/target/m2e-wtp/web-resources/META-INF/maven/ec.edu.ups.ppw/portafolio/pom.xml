@@ -36,7 +36,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Hibernate (JPA provider, opcional pero recomendado) -->
+        <!-- Hibernate (JPA provider) -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -44,7 +44,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- H2 (solo para pruebas locales, puedes quitar luego) -->
+        <!-- H2 Database (pruebas locales) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -52,11 +52,61 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- ================= JWT ================= -->
+
         <dependency>
-        	<groupId>ec.edu.ups</groupId>
-        	<artifactId>portafolio-backend</artifactId>
-        	<version>1.0.0</version>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- ================= JSON ================= -->
+
+        <!-- JSON-B -->
+        <dependency>
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <!-- JSON-P -->
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+        <!-- ================= CDI ================= -->
+
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+
+        <!-- ================= EMAIL (NUEVO) ================= -->
+
+        <!-- Jakarta Mail para notificaciones por correo -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
     </dependencies>
 
     <!-- ========================= -->

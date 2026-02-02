@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import ec.edu.ups.ppw.portafolio.model.Appointment;
@@ -15,17 +16,14 @@ public class AppointmentDAO {
     @PersistenceContext
     private EntityManager em;
 
-    // INSERTAR
     public void insert(Appointment appointment) {
         em.persist(appointment);
     }
 
-    // ACTUALIZAR
     public void update(Appointment appointment) {
         em.merge(appointment);
     }
 
-    // LEER POR ID
     public Appointment read(Long pk) {
         return em.find(Appointment.class, pk);
     }
@@ -37,11 +35,26 @@ public class AppointmentDAO {
         }
     }
 
-
-    // LISTAR
     public List<Appointment> getAll() {
-        String jpql = "SELECT a FROM Appointment a";
-        TypedQuery<Appointment> q = em.createQuery(jpql, Appointment.class);
+        return em.createQuery(
+                "SELECT a FROM Appointment a",
+                Appointment.class
+        ).getResultList();
+    }
+
+    // 🔥 HORAS OCUPADAS POR PROGRAMADOR Y FECHA
+    public List<String> findHoursByProgrammerAndDate(Long programmerId, LocalDate date) {
+
+        TypedQuery<String> q = em.createQuery(
+                "SELECT a.time FROM Appointment a " +
+                "WHERE a.programmer.id = :pid " +
+                "AND a.date = :date",
+                String.class
+        );
+
+        q.setParameter("pid", programmerId);
+        q.setParameter("date", date);
+
         return q.getResultList();
     }
 }

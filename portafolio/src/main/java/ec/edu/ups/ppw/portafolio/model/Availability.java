@@ -19,46 +19,55 @@ public class Availability {
     @Column(name = "end_time", nullable = false)
     private String endTime;
 
+    @Column(name = "mode")
+    private String mode; // ONLINE / PRESENCIAL
+
     @ManyToOne
     @JoinColumn(name = "programmer_id", nullable = false)
     private User programmer;
 
-    // ===== GETTERS & SETTERS =====
-
     public Long getId() {
         return id;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public User getProgrammer() {
-        return programmer;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getDay() {
+        return day;
+    }
+
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public String getStartTime() {
+        return startTime;
     }
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
+    public String getEndTime() {
+        return endTime;
+    }
+
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public User getProgrammer() {
+        return programmer;
     }
 
     public void setProgrammer(User programmer) {

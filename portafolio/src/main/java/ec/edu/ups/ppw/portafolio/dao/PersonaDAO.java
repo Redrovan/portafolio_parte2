@@ -1,7 +1,6 @@
 package ec.edu.ups.ppw.portafolio.dao;
 
 import java.util.List;
-
 import ec.edu.ups.ppw.portafolio.model.Persona;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -37,12 +36,5 @@ public class PersonaDAO {
         String jpql = "SELECT p FROM Persona p";
         TypedQuery<Persona> q = em.createQuery(jpql, Persona.class);
         return q.getResultList();
-    }
-    
-    public void crearPersona (Persona persona) throws Exception{
-    	if(persona.getCedula().length()!=10)
-    		throw new Exception("Formato de cedula incorrecto");
-    	
-    	em.persist(persona);
     }
 }

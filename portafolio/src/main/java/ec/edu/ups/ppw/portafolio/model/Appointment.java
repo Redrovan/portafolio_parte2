@@ -31,6 +31,15 @@ public class Appointment {
     @JoinColumn(name = "st_id", nullable = false)
     private AppointmentStatus status;
 
+    @Column(name = "app_comment", length = 500)
+    private String comment;
+
+    @Column(name = "app_mode")
+    private String mode;
+
+    @Column(name = "app_created_at")
+    private LocalDate createdAt;
+
     // getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -49,4 +58,13 @@ public class Appointment {
 
     public AppointmentStatus getStatus() { return status; }
     public void setStatus(AppointmentStatus status) { this.status = status; }
+
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
+
+    public String getMode() { return mode; }
+    public void setMode(String mode) { this.mode = mode; }
+
+    public LocalDate getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
 }

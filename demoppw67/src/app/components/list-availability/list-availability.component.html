@@ -1,0 +1,8 @@
+<div *ngFor="let a of list">
+  <strong>Programador:</strong>
+  {{ a.programmer.persona?.nombre || a.programmer.email }}
+  |
+  <strong>Día:</strong> {{ a.day }}
+  |
+  <strong>Horario:</strong> {{ a.startTime }} - {{ a.endTime }}
+</div>

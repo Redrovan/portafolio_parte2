@@ -1,0 +1,148 @@
+<div class="page-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Portafolio de Servicios</h1>
+    <p class="subtitle">
+      Conecta con programadores profesionales y agenda asesorías personalizadas
+    </p>
+  </div>
+
+  <!-- ===================== -->
+  <!-- PUBLICO (SIN LOGIN) -->
+  <!-- ===================== -->
+
+  <div *ngIf="!authUser">
+
+    <h2 class="section-title">Programadores Disponibles</h2>
+
+    <div class="cards">
+
+      <div class="card-default programmer" *ngFor="let p of programmers">
+
+        <img class="avatar"
+             [src]="p.photoUrl || 'assets/default-user.png'"
+             alt="Foto">
+
+        <h3>{{ p.persona?.nombre }}</h3>
+
+        <p class="speciality">
+          {{ p.especialidad?.nombre || 'Programador' }}
+        </p>
+
+        <button class="btn-primary"
+                [routerLink]="['/portfolio', p.id]">
+          Ver Portafolio
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- USUARIO NORMAL -->
+  <!-- ===================== -->
+
+  <div *ngIf="authUser?.role === 'USER'">
+
+    <h2 class="section-title">Programadores Disponibles</h2>
+
+    <div class="cards">
+
+      <div class="card-default programmer" *ngFor="let p of programmers">
+
+        <img class="avatar"
+             [src]="p.photoUrl || 'assets/default-user.png'"
+             alt="Foto">
+
+        <h3>{{ p.persona?.nombre }}</h3>
+
+        <p class="speciality">
+          {{ p.especialidad?.nombre || 'Programador' }}
+        </p>
+
+        <button class="btn-primary"
+                [routerLink]="['/portfolio', p.id]">
+          Ver Portafolio
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="user-actions">
+      <button
+        class="btn-secondary"
+        routerLink="/appointments/my">
+        Mis asesorías
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- PROGRAMADOR -->
+  <!-- ===================== -->
+
+  <div *ngIf="authUser?.role === 'PROGRAMMER'">
+
+    <h2 class="section-title">Mi Panel de Programador</h2>
+
+    <div class="cards">
+
+      <div class="card-default">
+        <h3>Mi Portafolio</h3>
+        <button class="btn-primary" routerLink="/my-portfolio">
+          Ver / Editar
+        </button>
+      </div>
+
+      <div class="card-default">
+        <h3>Mis Proyectos</h3>
+        <button class="btn-primary" routerLink="/my-projects">
+          Gestionar
+        </button>
+      </div>
+
+      <div class="card-default">
+        <h3>Disponibilidad</h3>
+        <button class="btn-primary" routerLink="/my-availability">
+          Configurar horarios
+        </button>
+      </div>
+
+      <div class="card-default">
+        <h3>Asesorías recibidas</h3>
+        <button class="btn-primary" routerLink="/appointments/my">
+          Ver solicitudes
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- ADMIN -->
+  <!-- ===================== -->
+
+  <div *ngIf="authUser?.role === 'ADMIN'">
+
+    <h2 class="section-title">Panel Administrador</h2>
+
+    <div class="cards">
+
+      <div class="card-default">
+        <h3>Programadores</h3>
+        <button class="btn-primary" routerLink="/admin/programmers">
+          Gestionar cuentas
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

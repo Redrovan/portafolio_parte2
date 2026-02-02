@@ -1,7 +1,8 @@
 package ec.edu.ups.ppw.portafolio.dao;
 
 import jakarta.ejb.Stateless;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 

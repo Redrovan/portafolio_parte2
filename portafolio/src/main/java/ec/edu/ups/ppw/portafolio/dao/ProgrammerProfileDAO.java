@@ -20,8 +20,22 @@ public class ProgrammerProfileDAO {
         return em.find(ProgrammerProfile.class, id);
     }
 
-	public List<ProgrammerProfile> getAll() {
-		return em.createQuery("SELECT p FROM ProgrammerProfile p",ProgrammerProfile.class)
-				.getResultList();
-	}
+    public ProgrammerProfile update(ProgrammerProfile p) {
+        return em.merge(p);
+    }
+
+    public List<ProgrammerProfile> getAll() {
+        return em.createQuery("SELECT p FROM ProgrammerProfile p", ProgrammerProfile.class)
+                .getResultList();
+    }
+
+    public ProgrammerProfile findByUserId(Long userId) {
+        try {
+            return em.createQuery("SELECT p FROM ProgrammerProfile p WHERE p.user.id = :uid", ProgrammerProfile.class)
+                    .setParameter("uid", userId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

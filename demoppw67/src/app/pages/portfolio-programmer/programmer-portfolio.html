@@ -1,0 +1,86 @@
+<div *ngIf="loadingProgrammer" class="loading">
+  <div class="spinner"></div>
+  <p>Cargando perfil del programador...</p>
+</div>
+
+<div *ngIf="errorProgrammer" class="error">
+  <i class="icon-error"></i>
+  {{ errorProgrammer }}
+</div>
+
+<div *ngIf="programmer" class="portfolio">
+
+  <div class="profile">
+    <div class="profile-image-container">
+      <img [src]="programmer.photoUrl || 'assets/default-avatar.png'" 
+           alt="Foto de {{ programmer.persona?.nombre }}">
+    </div>
+    
+    <h2>{{ programmer.persona?.nombre }}</h2>
+    <p class="specialty">{{ programmer.especialidad?.nombre || 'Especialidad no definida' }}</p>
+    
+    <div class="bio-container">
+      <p class="bio">{{ programmer.programmerProfile?.bio || 'Sin biografía disponible actualmente.' }}</p>
+    </div>
+  </div>
+
+  <div class="action-container">
+
+  <button 
+  *ngIf="authUser?.role === 'USER'"
+  class="btn-primary big"
+  routerLink="/appointments/create"
+  [queryParams]="{ programmerId: programmer.id }">
+  📅 Agendar asesoría
+</button>
+
+
+</div>
+
+
+  <div class="projects-section">
+    <h3>Proyectos Realizados</h3>
+
+    <div *ngIf="loadingProjects" class="loading-mini">
+      <p>Buscando proyectos...</p>
+    </div>
+
+    <div *ngIf="errorProjects" class="error-mini">
+      {{ errorProjects }}
+    </div>
+
+    <div *ngIf="projects.length === 0 && !loadingProjects" class="empty-state">
+      <p>Este programador aún no ha registrado proyectos públicos.</p>
+    </div>
+
+    <div class="projects-grid" *ngIf="projects.length > 0">
+      <div class="project-card" *ngFor="let p of projects">
+        <div class="project-content">
+          <h4>{{ p.name }}</h4>
+          <p>{{ p.description }}</p>
+          
+          <div class="tech-stack" *ngIf="p.technologies">
+            <span class="tech-badge">{{ p.technologies }}</span>
+          </div>
+        </div>
+
+        <div class="project-links">
+          <a *ngIf="p.repositoryUrl" 
+             [href]="p.repositoryUrl" 
+             target="_blank" 
+             class="btn-link repo">
+             Repositorio
+          </a>
+
+          <a *ngIf="p.deployUrl" 
+             [href]="p.deployUrl" 
+             target="_blank" 
+             class="btn-link demo">
+             Ver Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

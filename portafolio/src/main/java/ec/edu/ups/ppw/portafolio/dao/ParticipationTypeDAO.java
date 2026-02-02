@@ -21,6 +21,17 @@ public class ParticipationTypeDAO {
         return em.find(ParticipationType.class, id);
     }
 
+    public void update(ParticipationType pt) {
+        em.merge(pt);
+    }
+
+    public void delete(Long id) {
+        ParticipationType pt = read(id);
+        if (pt != null) {
+            em.remove(pt);
+        }
+    }
+
     public List<ParticipationType> getAll() {
         return em.createQuery(
             "SELECT p FROM ParticipationType p", ParticipationType.class

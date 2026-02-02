@@ -20,5 +20,20 @@ public class GestionProgrammerProfile {
     public List<ProgrammerProfile> listar() {
         return dao.getAll();
     }
-}
+    
+    public ProgrammerProfile buscar(Long id) {
+        return dao.read(id);
+    }
 
+    public ProgrammerProfile buscarPorUserId(Long userId) {
+        return dao.findByUserId(userId);
+    }
+
+    public void actualizar(ProgrammerProfile p) throws Exception {
+        ProgrammerProfile existing = dao.read(p.getId());
+        if (existing == null)
+            throw new Exception("ProgrammerProfile no existe");
+
+        dao.update(p);
+    }
+}

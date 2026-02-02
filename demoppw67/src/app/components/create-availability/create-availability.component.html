@@ -1,0 +1,21 @@
+<form (ngSubmit)="guardar()">
+
+  <label>Día</label>
+  <input type="text" [(ngModel)]="availability.day" name="day" required>
+
+  <label>Hora inicio</label>
+  <input type="time" [(ngModel)]="availability.startTime" name="startTime" required>
+
+  <label>Hora fin</label>
+  <input type="time" [(ngModel)]="availability.endTime" name="endTime" required>
+
+  <label>Programador</label>
+  <select [(ngModel)]="availability.programmer" name="programmer" required>
+    <option *ngFor="let p of programmers" [ngValue]="p">
+      {{ p.persona?.nombre || p.email }}
+    </option>
+  </select>
+
+  <button type="submit">Guardar</button>
+
+</form>

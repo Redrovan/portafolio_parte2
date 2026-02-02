@@ -5,7 +5,6 @@ import java.util.List;
 
 import ec.edu.ups.ppw.portafolio.bussines.GestionAppointmentStatus;
 import ec.edu.ups.ppw.portafolio.model.AppointmentStatus;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;

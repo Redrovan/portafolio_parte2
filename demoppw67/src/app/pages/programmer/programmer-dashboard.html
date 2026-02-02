@@ -1,0 +1,48 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="title-group">
+      <h2>Mi Perfil</h2>
+      <p class="subtitle">Gestiona tu información de programador</p>
+    </div>
+    <span class="role-badge">{{ profile?.role }}</span>
+  </div>
+
+  <div *ngIf="profile" class="profile-grid">
+    
+    <div class="info-card">
+      <div class="card-icon">👤</div>
+      <div class="info-group">
+        <label>Nombre Completo</label>
+        <p>{{ profile.persona?.nombre }}</p>
+      </div>
+      <div class="info-group">
+        <label>Correo Electrónico</label>
+        <p>{{ profile.email }}</p>
+      </div>
+    </div>
+
+    <div class="info-card highlight-card">
+      <div class="card-icon">🚀</div>
+      <div class="info-group">
+        <label>Especialidad</label>
+        <p class="specialty-text">{{ profile.especialidad?.nombre || 'No asignada' }}</p>
+      </div>
+      <div class="info-group">
+        <label>Estado Laboral</label>
+        <div class="status-tag">
+          <span class="dot"></span> Disponible
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="profile-footer-simple">
+    <p>ID de Usuario: <span>#{{ profile?.id }}</span></p>
+  </div>
+
+  <div *ngIf="!profile" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando información del perfil...</p>
+  </div>
+</div>

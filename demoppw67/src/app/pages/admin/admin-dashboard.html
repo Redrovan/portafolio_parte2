@@ -1,0 +1,19 @@
+<h2>Administración de Programadores</h2>
+
+<table border="1" width="100%">
+  <tr>
+    <th>Nombre</th>
+    <th>Email</th>
+    <th>Especialidad</th>
+    <th>Acciones</th>
+  </tr>
+
+  <tr *ngFor="let p of programmers">
+    <td>{{ p.persona?.nombre }}</td>
+    <td>{{ p.email }}</td>
+    <td>{{ p.especialidad?.nombre }}</td>
+    <td>
+      <button (click)="delete(p.id!)">Eliminar</button>
+    </td>
+  </tr>
+</table>

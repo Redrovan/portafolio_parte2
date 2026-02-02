@@ -1,0 +1,23 @@
+<h2>Mis Asesorías</h2>
+
+<div *ngFor="let a of list" class="card-default">
+
+  <p><b>Cliente:</b> {{ a.client.persona?.nombre }}</p>
+  <p><b>Fecha:</b> {{ a.date }} {{ a.time }}</p>
+  <p><b>Comentario:</b> {{ a.comment }}</p>
+
+  <p>
+    <b>Estado:</b>
+    <span [ngClass]="{
+      'status-pendiente': a.status.name === 'PENDING',
+      'status-aprobada': a.status.name === 'APPROVED',
+      'status-rechazada': a.status.name === 'REJECTED'
+    }">
+      {{ a.status.name }}
+    </span>
+  </p>
+
+  <button class="btn-success" (click)="aprobar(a)">Confirmar</button>
+  <button class="btn-danger" (click)="rechazar(a)">Rechazar</button>
+
+</div>

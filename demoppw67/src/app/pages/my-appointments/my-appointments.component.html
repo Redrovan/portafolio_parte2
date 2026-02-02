@@ -1,0 +1,24 @@
+<h2>Mis Asesorías</h2>
+
+<div *ngFor="let a of list" class="card-default">
+
+  <p><b>Programador:</b> {{ a.programmer.persona?.nombre }}</p>
+  <p><b>Fecha:</b> {{ a.date }} {{ a.time }}</p>
+  <p><b>Estado:</b> {{ a.status.name }}</p>
+
+  <!-- BOTONES SOLO PARA PROGRAMADOR -->
+
+  <div *ngIf="authUser?.role === 'PROGRAMMER'">
+
+    <button class="btn-primary" (click)="aprobar(a)">
+      Aprobar
+    </button>
+
+    <button class="btn-secondary" (click)="cancelar(a)">
+      Cancelar
+    </button>
+
+  </div>
+
+</div>
+<!-- BOTÓN SOLO PARA CLIENTE -->

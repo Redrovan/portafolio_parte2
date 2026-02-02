@@ -1,0 +1,51 @@
+<div class="admin-container">
+
+  <div class="header-row">
+    <h2>Gestionar Programadores</h2>
+
+    <button 
+      class="btn-create"
+      routerLink="/admin/programmers/create">
+      ➕ Crear Programador
+    </button>
+  </div>
+
+  <div class="table-wrapper">
+
+    <table class="programmers-table">
+
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Especialidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of programmers">
+          <td>{{ p.persona?.nombre }}</td>
+          <td>{{ p.email }}</td>
+          <td>{{ p.especialidad?.nombre }}</td>
+
+          <td>
+             <button 
+    class="btn-edit"
+    [routerLink]="['/admin/programmers/edit', p.id]">
+    Editar
+  </button>
+            <button 
+              class="btn-delete"
+              (click)="eliminar(p.id!)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

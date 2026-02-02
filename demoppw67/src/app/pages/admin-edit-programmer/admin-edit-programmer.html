@@ -1,0 +1,60 @@
+<div class="admin-edit-container">
+
+  <h2>Editar Programador</h2>
+
+  <form (ngSubmit)="guardar()">
+
+    <div class="form-group">
+      <label>Cédula</label>
+      <input [(ngModel)]="programmer.persona.cedula" name="cedula" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input [(ngModel)]="programmer.persona.nombre" name="nombre" required>
+    </div>
+
+    <div class="form-group">
+      <label>Dirección</label>
+      <input [(ngModel)]="programmer.persona.direccion" name="direccion">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="programmer.email" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label>Especialidad</label>
+
+      <select [(ngModel)]="programmer.especialidad.id" name="especialidad">
+
+        <option *ngFor="let e of especialidades" [value]="e.id">
+          {{ e.nombre }}
+        </option>
+
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Foto URL</label>
+      <input [(ngModel)]="programmer.photoUrl" name="photo">
+    </div>
+
+    <div class="form-group">
+      <label>Teléfono</label>
+      <input [(ngModel)]="programmer.phone" name="phone">
+    </div>
+
+    <div class="form-group">
+      <label>Redes sociales</label>
+      <input [(ngModel)]="programmer.socialLinks" name="social">
+    </div>
+
+    <button class="btn-save">
+      Guardar Cambios
+    </button>
+
+  </form>
+
+</div>

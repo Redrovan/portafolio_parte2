@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-primary: #4dabf7;    
+  --color-secondary: #a78bfa;  
+  --color-success: #22c55e;    
+  --color-danger: #ef4444;     
+  --color-warning: #facc15;    
+  --color-dark: #0f172a;       
+  --color-light: #1e293b;      
+  --color-text: #e2e8f0;       
+}
+
+/* Fondo general */
+body {
+  background: var(--color-dark);
+  color: var(--color-text);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-light);
+}
+
+/* Botones globales */
+button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.btn-primary { background: var(--color-primary); color: white; }
+.btn-danger  { background: var(--color-danger);  color: white; }
+.btn-success { background: var(--color-success); color: white; }
+.btn-warning { background: var(--color-warning); }
+.btn-secondary { background: var(--color-secondary); color: white; }
+
+/* Botón para retroceder */
+.back-btn {
+  background: transparent;
+  color: var(--color-primary);
+  border: none;
+  font-size: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  color: var(--color-secondary);
+}
+
+/* Estado de asesorías */
+.status-pendiente  { color: var(--color-warning);  font-weight: bold; }
+.status-aprobada   { color: var(--color-success); font-weight: bold; }
+.status-rechazada  { color: var(--color-danger);  font-weight: bold; }
+
+/* Cards */
+.card-default {
+  background: var(--color-light);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+}

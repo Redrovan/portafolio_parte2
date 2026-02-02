@@ -1,0 +1,53 @@
+<nav class="navbar">
+
+  <div class="left">
+    <a routerLink="/" class="logo">
+      Portafolio<span>Pro</span>
+    </a>
+  </div>
+
+  <div class="middle">
+    <a routerLink="/home" 
+       routerLinkActive="active" 
+       [routerLinkActiveOptions]="{ exact: true }">
+       Inicio
+    </a>
+
+    <a *ngIf="user?.role === 'ADMIN'" 
+       routerLink="/admin/dashboard" 
+       routerLinkActive="active">
+       Administrador
+    </a>
+
+    <a *ngIf="user?.role === 'PROGRAMMER'" 
+       routerLink="/programmer/dashboard" 
+       routerLinkActive="active">
+       Mi Perfil-Programador
+    </a>
+  </div>
+
+  <div class="right">
+    <ng-container *ngIf="user; else notLogged">
+      
+      <div class="user-profile">
+        <img class="avatar" 
+             src="assets/default-user.png" 
+             alt="Avatar"
+             (error)="$any($event).target.src = 'https://ui-avatars.com/api/?name=' + user.persona?.nombre">
+        
+        <span class="name">{{ user.persona?.nombre }}</span>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">
+        Salir
+      </button>
+    </ng-container>
+
+    <ng-template #notLogged>
+      <button routerLink="/login" class="btn-primary">
+        Ingresar
+      </button>
+    </ng-template>
+  </div>
+
+</nav>

@@ -1,19 +1,12 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { Formulario } from './components/formulario/formulario';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+import { NavbarComponent } from './pages/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent], // <-- CORREGIDO
+  templateUrl: './app.html'
 })
-export class App {
-  title = "Cristian Timbi";
-  edad = 40;
-
-  saludar(){
-    this.title = "Usted tiene " + this.edad;
-    this.edad += 1;
-  }
-}
+export class App {}

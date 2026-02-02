@@ -7,21 +7,15 @@
 
     <persistence-unit name="portafolioPersistenceUnit" transaction-type="JTA">
 
-        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <!-- 1) Conexión a PostgreSQL -->
+        <jta-data-source>java:jboss/datasources/PortafolioDS</jta-data-source>
 
         <properties>
-
-            <!-- Fuerza recreación de tablas -->
-            <property name="jakarta.persistence.schema-generation.database.action"
-                      value="drop-and-create"/>
-
-            <!-- Logs SQL -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-
-            <!-- Hibernate 6 + WildFly: NO usar hbm2ddl -->
             <property name="hibernate.hbm2ddl.auto" value="none"/>
-
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
         </properties>
 
     </persistence-unit>
