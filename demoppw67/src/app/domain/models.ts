@@ -49,8 +49,8 @@ export interface User {
   phone?: string;
   socialLinks?: string;
 
-  persona?: Persona;
-  especialidad?: Especialidad;
+  persona: Persona;
+  especialidad: Especialidad;
   programmerProfile?: ProgrammerProfile;
 }
 
@@ -58,17 +58,18 @@ export interface User {
 // PROJECT
 // =======================
 export interface Project {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   repositoryUrl?: string;
   deployUrl?: string;
   technologies?: string;
-  section?: string;
+  section: 'ACADEMICO' | 'LABORAL';
   participationType?: any;
   active?: boolean;
   owner?: any;
 }
+
 
 // =======================
 // APPOINTMENT STATUS

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-
+import { BackButtonComponent } from '../back-button/back-button';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { ProjectService } from '../../services/project.service';
@@ -11,7 +11,7 @@ import { User, Project } from '../../domain/models';
 @Component({
   selector: 'app-programmer-portfolio',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, BackButtonComponent ],
   templateUrl: './programmer-portfolio.html',
   styleUrls: ['./programmer-portfolio.scss']
 })
@@ -56,7 +56,7 @@ export class ProgrammerPortfolioComponent implements OnInit {
       }
     });
 
-    // 📂 PROYECTOS (PÚBLICO)
+    // PROYECTOS (PÚBLICO)
     this.projectService.getPublicProjectsByUser(id).subscribe({
       next: data => {
         this.projects = data;

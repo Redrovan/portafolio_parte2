@@ -1,13 +1,25 @@
 <div class="admin-container">
 
+  <app-back-button></app-back-button>
+
   <div class="header-row">
     <h2>Gestionar Programadores</h2>
 
-    <button 
-      class="btn-create"
-      routerLink="/admin/programmers/create">
-      ➕ Crear Programador
-    </button>
+    <div class="actions-top">
+
+      <button 
+        class="btn-create"
+        routerLink="/admin/programmers/create">
+        ➕ Crear Programador
+      </button>
+
+      <button 
+        class="btn-report-global"
+        routerLink="/admin/reports">
+        📊 Reportes Generales
+      </button>
+
+    </div>
   </div>
 
   <div class="table-wrapper">
@@ -24,24 +36,39 @@
       </thead>
 
       <tbody>
+
         <tr *ngFor="let p of programmers">
+
           <td>{{ p.persona?.nombre }}</td>
           <td>{{ p.email }}</td>
           <td>{{ p.especialidad?.nombre }}</td>
 
-          <td>
-             <button 
-    class="btn-edit"
-    [routerLink]="['/admin/programmers/edit', p.id]">
-    Editar
-  </button>
+          <td class="actions-col">
+
+            <button 
+              class="btn-edit"
+              [routerLink]="['/admin/programmers/edit', p.id]">
+              ✏ Editar
+            </button>
+
             <button 
               class="btn-delete"
               (click)="eliminar(p.id!)">
-              Eliminar
+              ❌ Eliminar
             </button>
+
+            <!-- 👉 REPORTE INDIVIDUAL POR PROGRAMADOR -->
+
+            <button 
+              class="btn-report"
+              [routerLink]="['/admin/reports/programmer', p.id]">
+              📊 Reporte
+            </button>
+
           </td>
+
         </tr>
+
       </tbody>
 
     </table>

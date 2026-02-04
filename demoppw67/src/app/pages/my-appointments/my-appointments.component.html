@@ -1,14 +1,35 @@
+<app-back-button></app-back-button>
+
 <h2>Mis Asesorías</h2>
 
 <div *ngFor="let a of list" class="card-default">
 
-  <p><b>Programador:</b> {{ a.programmer.persona?.nombre }}</p>
-  <p><b>Fecha:</b> {{ a.date }} {{ a.time }}</p>
+  <p><b>Programador:</b> {{ a.programmer.persona.nombre }}</p>
+
+  <p><b>Cliente:</b> {{ a.client.persona.nombre }}</p>
+
+  <p><b>Fecha:</b> {{ a.date }} - {{ a.time }}</p>
+
+  <!-- DESCRIPCIÓN (COMMENT) -->
+  <p>
+    <b>Descripción:</b>
+    {{ a.comment }}
+  </p>
+
+  <!-- MODALIDAD -->
+  <p>
+    <b>Modalidad:</b>
+    <span class="mode-badge"
+          [ngClass]="a.mode === 'Virtual' ? 'virtual' : 'presencial'">
+      {{ a.mode }}
+    </span>
+  </p>
+
   <p><b>Estado:</b> {{ a.status.name }}</p>
 
-  <!-- BOTONES SOLO PARA PROGRAMADOR -->
+  <!-- SOLO PROGRAMADOR -->
 
-  <div *ngIf="authUser?.role === 'PROGRAMMER'">
+  <div *ngIf="authUser?.role === 'PROGRAMMER' && a.status.name === 'PENDING'">
 
     <button class="btn-primary" (click)="aprobar(a)">
       Aprobar
@@ -21,4 +42,3 @@
   </div>
 
 </div>
-<!-- BOTÓN SOLO PARA CLIENTE -->

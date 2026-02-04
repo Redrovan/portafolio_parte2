@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserWithToken } from '../../domain/user-with-token.model';
 
@@ -12,18 +12,30 @@ import { UserWithToken } from '../../domain/user-with-token.model';
   styleUrls: ['./navbar.scss']
 })
 export class NavbarComponent implements OnInit {
+
   user: UserWithToken | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Nos suscribimos al observable del servicio para detectar cambios de sesión
+
     this.authService.user$.subscribe(u => {
       this.user = u;
     });
+
   }
 
   logout() {
+
+    // cerrar sesión
     this.authService.logout();
+
+    // redirigir al home
+    this.router.navigate(['/home'], { replaceUrl: true });
+
   }
+
 }

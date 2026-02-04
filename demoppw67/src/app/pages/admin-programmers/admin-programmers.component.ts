@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { BackButtonComponent } from '../back-button/back-button';
 import { UserService } from '../../services/user.service';
 import { User } from '../../domain/models';
 
 @Component({
   standalone: true,
   selector: 'app-admin-programmers',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, BackButtonComponent],
   templateUrl: './admin-programmers.component.html',
   styleUrls: ['./admin-programmers.component.scss']
 })
@@ -44,10 +44,11 @@ export class AdminProgrammersComponent implements OnInit {
     this.userService.deleteUser(id).subscribe({
       next: () => {
         alert('Programador eliminado');
-        this.cargarProgramadores(); // refresca tabla
+        this.cargarProgramadores();
       },
       error: err => console.error(err)
     });
 
   }
+
 }

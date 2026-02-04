@@ -1,53 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Role } from '../../domain/models';
 
-import { GestionAvailability } from '../../services/gestion-availability.service';
-import { UserService } from '../../services/user.service';
-import { Availability, User, Role } from '../../domain/models';
+import { AvailabilityService } from '../../services/availability.service';
+import { AuthService } from '../../services/auth.service';
+import { Availability } from '../../domain/models';
 
 @Component({
-  selector: 'app-create-availability',
   standalone: true,
+  selector: 'app-create-availability',
   imports: [CommonModule, FormsModule],
   templateUrl: './create-availability.component.html'
 })
-export class CreateAvailabilityComponent implements OnInit {
+export class CreateAvailabilityComponent {
 
   availability: Availability = {
     day: '',
     startTime: '',
     endTime: '',
-    programmer: {} as User
+    mode: 'ONLINE',
+    programmer: {
+      id: 0,
+      email: '',
+      role:Role.PROGRAMADOR,
+      persona: { nombre: '', direccion: '', cedula: '' },
+      especialidad: { nombre: '', descripcion: '' },
+      active: true
+    }
   };
 
-  programmers: User[] = [];
-
   constructor(
-    private availabilityService: GestionAvailability,
-    private userService: UserService,
-    private router: Router
+    private availabilityService: AvailabilityService,
+    private auth: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.loadProgrammers();
-  }
+  guardar() {
 
-  loadProgrammers(): void {
-    this.userService.getByRole(Role.PROGRAMADOR).subscribe({
-      next: (data: User[]) => this.programmers = data,
-      error: (err: any) => console.error(err)
-    });
-  }
+    const id = this.auth.user?.id;
+    if (!id) return;
 
-  guardar(): void {
+    this.availability.programmer.id = id;
+
     this.availabilityService.guardar(this.availability).subscribe({
-      next: () => {
-        alert('Disponibilidad creada');
-        this.router.navigate(['/availability/list']);
-      },
-      error: (err: any) => console.error(err)
+      next: () => alert('Disponibilidad guardada'),
+      error: err => console.error(err)
     });
   }
 }

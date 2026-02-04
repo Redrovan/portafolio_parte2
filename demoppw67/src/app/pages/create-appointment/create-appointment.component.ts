@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { BackButtonComponent } from '../back-button/back-button';
 import { GestionAppointments } from '../../services/gestion-appointments.service';
 import { UserService } from '../../services/user.service';
 import { Appointment, User } from '../../domain/models';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
-  selector: 'app-create-appointment',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  selector: 'app-create-appointment',
+  imports: [CommonModule, FormsModule, BackButtonComponent],
   templateUrl: './create-appointment.component.html',
   styleUrls: ['./create-appointment.component.scss']
 })
@@ -29,47 +30,41 @@ export class CreateAppointmentComponent implements OnInit {
 
   programmers: User[] = [];
   availableHours: string[] = [];
+  noSchedule = false;
 
   constructor(
     private appointmentService: GestionAppointments,
     private userService: UserService,
     private auth: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService   // ✅ popup service
   ) {}
 
   ngOnInit(): void {
 
-    // 👤 Cliente logueado
     const clientId = this.auth.user?.id;
-    if (clientId) {
-      this.appointment.client.id = clientId;
-    }
+    if (clientId) this.appointment.client.id = clientId;
 
-    // 📌 Obtener query param
     const pid = Number(this.route.snapshot.queryParamMap.get('programmerId'));
 
-    // 👨‍💻 Cargar programadores
     this.userService.getProgrammers().subscribe({
       next: data => {
 
         this.programmers = data;
 
-        // 🔥 Seleccionar automáticamente si viene por URL
         if (pid) {
           const selected = this.programmers.find(p => p.id === pid);
-
-          if (selected) {
-            this.appointment.programmer = selected;
-          }
+          if (selected) this.appointment.programmer = selected;
         }
-
       },
       error: err => console.error(err)
     });
   }
 
-  // ⏰ Cargar horas disponibles
+  // =======================
+  // HORAS DISPONIBLES
+  // =======================
   loadAvailableHours() {
 
     if (!this.appointment.programmer?.id || !this.appointment.date) return;
@@ -80,19 +75,51 @@ export class CreateAppointmentComponent implements OnInit {
         this.appointment.date
       )
       .subscribe({
-        next: hours => this.availableHours = hours,
+        next: hours => {
+
+          this.availableHours = hours;
+          this.noSchedule = hours.length === 0;
+
+          if (this.noSchedule) {
+            this.notification.showInfo('No hay horarios disponibles para ese día');
+          }
+
+        },
         error: err => console.error(err)
       });
   }
 
-  // 💾 Guardar cita
+  // =======================
+  // GUARDAR CITA
+  // =======================
   guardar() {
+
     this.appointmentService.create(this.appointment).subscribe({
+
       next: () => {
-        alert('Cita agendada correctamente');
-        this.router.navigate(['/appointments/my']);
+
+        // ✅ NOTIFICACIÓN USUARIO
+        this.notification.showSuccess('Asesoría agendada correctamente');
+
+        // ✅ NOTIFICACIÓN PROGRAMADOR (simulada en frontend)
+        this.notification.showInfo('El programador recibió una nueva asesoría');
+
+        // redirigir
+        setTimeout(() => {
+          this.router.navigate(['/appointments/my']);
+        }, 1000);
+
       },
-      error: err => console.error(err)
+
+      error: err => {
+
+        this.notification.showError(
+          err.error || 'Horario ya ocupado'
+        );
+
+      }
+
     });
   }
+
 }

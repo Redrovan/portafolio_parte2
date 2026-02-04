@@ -1,8 +1,10 @@
 package ec.edu.ups.ppw.portafolio.bussines;
 
 import java.util.List;
+
 import ec.edu.ups.ppw.portafolio.dao.AvailabilityDAO;
 import ec.edu.ups.ppw.portafolio.model.Availability;
+
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
@@ -10,45 +12,79 @@ import jakarta.inject.Inject;
 public class GestionAvailability {
 
     @Inject
-    private AvailabilityDAO availabilityDAO;
+    private AvailabilityDAO dao;
 
-    public List<Availability> getAvailabilities() {
-        return availabilityDAO.getAll();
+    public List<Availability> getAll() {
+        return dao.getAll();
     }
 
-    public Availability getAvailability(Long id) throws Exception {
-        if (id == null || id <= 0) {
-            throw new Exception("Parametro Vacio o inválido");
-        }
-        return availabilityDAO.read(id);
+    public List<Availability> getByProgrammer(Long id) throws Exception {
+
+        if (id == null || id <= 0)
+            throw new Exception("ID inválido");
+
+        return dao.getByProgrammer(id);
     }
 
-    public void crearAvailability(Availability availability) throws Exception {
-        if (availability == null) {
+    public Availability getById(Long id) throws Exception {
+
+        if (id == null || id <= 0)
+            throw new Exception("ID inválido");
+
+        return dao.read(id);
+    }
+
+    public void crear(Availability a) throws Exception {
+
+        if (a == null)
             throw new Exception("Availability vacía");
-        }
-        if (availability.getProgrammer() == null) {
-            throw new Exception("El programador es obligatorio");
-        }
-        availabilityDAO.insert(availability);
+
+        if (a.getProgrammer() == null)
+            throw new Exception("Programador obligatorio");
+
+        dao.insert(a);
     }
 
-    public void actualizarAvailability(Availability availability) throws Exception {
-        if (availability == null || availability.getId() == null) {
+    public void actualizar(Availability a) throws Exception {
+
+        if (a == null || a.getId() == null)
             throw new Exception("Availability inválida");
-        }
-        Availability a = availabilityDAO.read(availability.getId());
-        if (a == null) {
+
+        Availability old = dao.read(a.getId());
+
+        if (old == null)
             throw new Exception("Availability no existe");
-        }
-        availabilityDAO.update(availability);
+
+        dao.update(a);
     }
 
-    public void eliminarAvailability(Long id) throws Exception {
-        Availability a = availabilityDAO.read(id);
-        if (a == null) {
+    public void eliminar(Long id) throws Exception {
+
+        Availability a = dao.read(id);
+
+        if (a == null)
             throw new Exception("Availability no existe");
-        }
-        availabilityDAO.delete(id);
+
+        dao.delete(id);
     }
+    
+    public void crearAvailability(Availability availability) throws Exception {
+
+        if (availability == null)
+            throw new Exception("Availability vacía");
+
+        if (availability.getProgrammer() == null)
+            throw new Exception("Programador obligatorio");
+
+        Availability exist = dao.findByProgrammerAndDay(
+            availability.getProgrammer().getId(),
+            availability.getDay()
+        );
+
+        if (exist != null)
+            throw new Exception("Ya existe disponibilidad para ese día");
+
+        dao.insert(availability);
+    }
+
 }

@@ -12,13 +12,28 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔐 PROTEGIDO
+  // 🔐 PRIVADO
   getProjectsByUser(userId: number): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.api}/user/${userId}`);
   }
 
-  // 🌍 PÚBLICO - Coincide con Java @Path("public/user/{userId}")
+  // 🌍 PUBLICO
   getPublicProjectsByUser(userId: number): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.api}/public/user/${userId}`);
+  }
+
+  // ➕ CREAR
+  createProject(project: Project): Observable<Project> {
+    return this.http.post<Project>(this.api, project);
+  }
+
+  // ✏️ ACTUALIZAR
+  updateProject(project: Project): Observable<Project> {
+    return this.http.put<Project>(this.api, project);
+  }
+
+  // ❌ ELIMINAR
+  deleteProject(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/${id}`);
   }
 }

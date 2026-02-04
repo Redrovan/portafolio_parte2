@@ -1,6 +1,64 @@
 <div class="login">
-  <h2>Login</h2>
-  <input [(ngModel)]="email" placeholder="Email" type="email">
-  <input [(ngModel)]="password" placeholder="Password" type="password">
-  <button (click)="login()">Ingresar</button>
+
+  <h2 *ngIf="!registerMode">Login</h2>
+  <h2 *ngIf="registerMode">Crear cuenta</h2>
+
+  <!-- ================= LOGIN ================= -->
+
+  <div *ngIf="!registerMode">
+
+    <input 
+      [(ngModel)]="email" 
+      placeholder="Email" 
+      type="email">
+
+    <input 
+      [(ngModel)]="password" 
+      placeholder="Password" 
+      type="password">
+
+    <button (click)="login()">Ingresar</button>
+
+    <p class="link" (click)="registerMode = true">
+      ¿No tienes cuenta? Crear una
+    </p>
+
+  </div>
+
+  <!-- ================= REGISTRO ================= -->
+
+  <div *ngIf="registerMode">
+
+    <input 
+      placeholder="Nombre"
+      [(ngModel)]="newUser.persona.nombre">
+
+    <input 
+      placeholder="Cédula"
+      [(ngModel)]="newUser.persona.cedula">
+
+    <input 
+      placeholder="Dirección"
+      [(ngModel)]="newUser.persona.direccion">
+
+    <input 
+      placeholder="Email"
+      type="email"
+      [(ngModel)]="newUser.email">
+
+    <input 
+      placeholder="Password"
+      type="password"
+      [(ngModel)]="newUser.password">
+
+    <button (click)="register()">
+      Crear cuenta
+    </button>
+
+    <p class="link" (click)="registerMode = false">
+      Volver al login
+    </p>
+
+  </div>
+
 </div>

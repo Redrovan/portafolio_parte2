@@ -39,8 +39,7 @@ public class AppointmentService {
     // ===============================
     @GET
     public Response listar() {
-        List<Appointment> listado = ga.listar();
-        return Response.ok(listado).build();
+        return Response.ok(ga.listar()).build();
     }
 
     // ===============================
@@ -49,32 +48,21 @@ public class AppointmentService {
     @GET
     @Path("{id}")
     public Response getAppointment(@PathParam("id") Long id) {
+
         try {
             Appointment a = ga.buscar(id);
 
-            if (a == null) {
-                return Response.status(Response.Status.NOT_FOUND)
-                        .entity(new ApiError(
-                                404,
-                                "No encontrado",
-                                "Appointment con ID " + id + " no encontrada"))
-                        .build();
-            }
+            if (a == null) return Response.status(404).build();
 
             return Response.ok(a).build();
 
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ApiError(
-                            500,
-                            "Error interno",
-                            e.getMessage()))
-                    .build();
+            return Response.serverError().build();
         }
     }
 
     // ===============================
-    // 🔥 HORAS DISPONIBLES
+    // ⏰ HORAS DISPONIBLES
     // ===============================
     @GET
     @Path("available")
@@ -85,9 +73,8 @@ public class AppointmentService {
         try {
 
             LocalDate date = LocalDate.parse(dateStr);
-            DayOfWeek day = date.getDayOfWeek();
 
-            String dayName = switch (day) {
+            String dayName = switch (date.getDayOfWeek()) {
                 case MONDAY -> "Lunes";
                 case TUESDAY -> "Martes";
                 case WEDNESDAY -> "Miércoles";
@@ -97,18 +84,15 @@ public class AppointmentService {
                 case SUNDAY -> "Domingo";
             };
 
-            Availability availability = availabilityDAO
-                    .findByProgrammerAndDay(programmerId, dayName);
+            Availability availability =
+                    availabilityDAO.findByProgrammerAndDay(programmerId, dayName);
 
-
-            if (availability == null) {
-                return Response.ok(new ArrayList<>()).build();
-            }
+            if (availability == null)
+                return Response.ok(List.of()).build();
 
             LocalTime start = LocalTime.parse(availability.getStartTime());
             LocalTime end = LocalTime.parse(availability.getEndTime());
 
-            // 2️⃣ Generar horas posibles
             List<String> hours = new ArrayList<>();
 
             LocalTime current = start;
@@ -118,44 +102,38 @@ public class AppointmentService {
                 current = current.plusHours(1);
             }
 
-            // 3️⃣ Obtener ocupadas
-            List<String> occupied = appointmentDAO
-                    .findHoursByProgrammerAndDate(programmerId, date);
+            List<LocalTime> occupied =
+                    appointmentDAO.findHoursByProgrammerAndDate(programmerId, date);
 
-            // 4️⃣ Quitar ocupadas
-            hours.removeAll(occupied);
+            hours.removeIf(h -> occupied.contains(LocalTime.parse(h)));
 
             return Response.ok(hours).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
             return Response.serverError().build();
         }
     }
 
     // ===============================
-    // CREAR (ENVÍA CORREO AL PROGRAMADOR)
+    // CREAR CITA
     // ===============================
     @POST
-    public Response crearAppointment(Appointment appointment, @Context UriInfo uriInfo) {
+    public Response crearAppointment(Appointment appointment,
+                                     @Context UriInfo uriInfo) {
+
         try {
 
             ga.guardar(appointment);
 
-            Long programmerId = appointment.getProgrammer().getId();
-            User programmer = userDAO.read(programmerId);
-
-            if (programmer == null) {
-                throw new Exception("Programador no encontrado");
-            }
+            User programmer = userDAO.read(
+                    appointment.getProgrammer().getId()
+            );
 
             emailService.enviarCorreo(
                     programmer.getEmail(),
                     "Nueva asesoría agendada",
-                    "Tienes una nueva asesoría programada para el día "
-                            + appointment.getDate()
-                            + " a las "
-                            + appointment.getTime()
+                    "Nueva asesoría el " + appointment.getDate() +
+                            " a las " + appointment.getTime()
             );
 
             URI location = uriInfo.getAbsolutePathBuilder()
@@ -167,13 +145,9 @@ public class AppointmentService {
                     .build();
 
         } catch (Exception e) {
-            e.printStackTrace();
 
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ApiError(
-                            500,
-                            "Error interno",
-                            e.getMessage()))
+            return Response.status(500)
+                    .entity(e.getMessage())
                     .build();
         }
     }
@@ -183,32 +157,23 @@ public class AppointmentService {
     // ===============================
     @PUT
     public Response actualizarAppointment(Appointment appointment) {
+
         try {
 
             ga.actualizar(appointment);
 
-            String correoCliente = appointment.getClient().getEmail();
-            String estado = appointment.getStatus().getName();
-
             emailService.enviarCorreo(
-                    correoCliente,
-                    "Estado de tu asesoría",
-                    "Tu asesoría fue " + estado +
-                            " para el día " + appointment.getDate() +
-                            " a las " + appointment.getTime()
+                    appointment.getClient().getEmail(),
+                    "Estado de asesoría",
+                    "Tu asesoría fue " +
+                            appointment.getStatus().getName()
             );
 
             return Response.ok(appointment).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
 
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ApiError(
-                            500,
-                            "Error interno",
-                            e.getMessage()))
-                    .build();
+            return Response.serverError().build();
         }
     }
 
@@ -218,17 +183,55 @@ public class AppointmentService {
     @DELETE
     @Path("{id}")
     public Response eliminarAppointment(@PathParam("id") Long id) {
+
         try {
             ga.eliminar(id);
             return Response.noContent().build();
 
         } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(new ApiError(
-                            404,
-                            "No encontrado",
-                            e.getMessage()))
-                    .build();
+            return Response.status(404).build();
         }
+    }
+
+    // =================================================
+    // 📊 REPORTE: ASESORÍAS POR ESTADO
+    // =================================================
+    @GET
+    @Path("report/status")
+    public Response reportByStatus() {
+
+        List<Object[]> data = appointmentDAO.countByStatus();
+
+        List<Map<String,Object>> result = new ArrayList<>();
+
+        for (Object[] row : data) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("status", row[0]);
+            map.put("total", row[1]);
+            result.add(map);
+        }
+
+        return Response.ok(result).build();
+    }
+
+    // =================================================
+    // 📊 REPORTE: ASESORÍAS POR PROGRAMADOR
+    // =================================================
+    @GET
+    @Path("report/programmer")
+    public Response reportByProgrammer() {
+
+        List<Object[]> data = appointmentDAO.countByProgrammer();
+
+        List<Map<String,Object>> result = new ArrayList<>();
+
+        for (Object[] row : data) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("programmer", row[0]);
+            map.put("total", row[1]);
+            result.add(map);
+        }
+
+        return Response.ok(result).build();
     }
 }

@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../domain/models';
+import { RouterModule } from '@angular/router';
+import { BackButtonComponent } from '../back-button/back-button';
 
 @Component({
   selector: 'app-programmer-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, BackButtonComponent],
   templateUrl: './programmer-dashboard.html',
   styleUrls: ['./programmer-dashboard.scss']
 })

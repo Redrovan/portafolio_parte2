@@ -13,14 +13,14 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // ===============================
-  // LISTAR PROGRAMADORES (PÚBLICO)
+  // PROGRAMADORES (PÚBLICO)
   // ===============================
   getProgrammers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.api}/programmers`);
   }
 
   // ===============================
-  // OBTENER USUARIO POR ID
+  // OBTENER POR ID
   // ===============================
   getById(id: number): Observable<User> {
     return this.http.get<User>(`${this.api}/${id}`);
@@ -30,24 +30,26 @@ export class UserService {
   // ADMIN → CREAR PROGRAMADOR
   // ===============================
   createProgrammer(user: User): Observable<User> {
-    return this.http.post<User>(
-      `${this.api}/programmer`,
-      user
-    );
+    return this.http.post<User>(`${this.api}/programmer`, user);
   }
 
   // ===============================
-  // ACTUALIZAR PROGRAMADOR
+  // ACTUALIZAR PERFIL ✅ (CON ID)
   // ===============================
-  update(user: User): Observable<User> {
+  updateUser(user: User): Observable<User> {
+
+    if (!user.id) {
+      throw new Error('User ID requerido para actualizar');
+    }
+
     return this.http.put<User>(
-      `${this.api}`,
+      `${this.api}/${user.id}`,   // 🔥 AQUÍ ESTABA EL PROBLEMA
       user
     );
   }
 
   // ===============================
-  // ELIMINAR USUARIO
+  // ELIMINAR
   // ===============================
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
@@ -66,5 +68,12 @@ export class UserService {
   getByRole(role: Role): Observable<User[]> {
     return this.http.get<User[]>(`${this.api}/role/${role}`);
   }
+
+  // ===============================
+// CREAR USUARIO NORMAL
+// ===============================
+createUser(user: any): Observable<User> {
+  return this.http.post<User>(this.api, user);
+}
 
 }

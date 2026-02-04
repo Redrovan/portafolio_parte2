@@ -1,8 +1,9 @@
 <h2>Agendar Asesoría</h2>
 
+<app-back-button></app-back-button>
+
 <form (ngSubmit)="guardar()" class="card-default">
 
-  <!-- PROGRAMADOR -->
   <label>Programador</label>
   <select 
     [(ngModel)]="appointment.programmer" 
@@ -10,16 +11,13 @@
     (change)="loadAvailableHours()"
     required>
 
-    <option value="" disabled selected>
-      Selecciona un programador
-    </option>
+    <option value="" disabled selected>Selecciona un programador</option>
 
     <option *ngFor="let p of programmers" [ngValue]="p">
       {{ p.persona?.nombre }} - {{ p.especialidad?.nombre }}
     </option>
   </select>
 
-  <!-- FECHA -->
   <label>Fecha</label>
   <input 
     type="date" 
@@ -28,30 +26,23 @@
     (change)="loadAvailableHours()"
     required>
 
-  <!-- HORA DISPONIBLE -->
   <label>Hora disponible</label>
   <select 
     [(ngModel)]="appointment.time" 
     name="time"
     required>
 
-    <option value="" disabled selected>
-      Selecciona una hora
-    </option>
+    <option value="" disabled selected>Selecciona una hora</option>
 
     <option *ngFor="let h of availableHours" [value]="h">
       {{ h }}
     </option>
-
   </select>
 
-  <!-- MENSAJE SI NO HAY HORAS -->
-  <p *ngIf="availableHours.length === 0 && appointment.date && appointment.programmer?.id"
-     style="color:#facc15; margin-top:6px;">
-     No hay horas disponibles para esta fecha
+  <p *ngIf="noSchedule" style="color:#ef4444;margin-top:6px;">
+    ❌ Todas las horas están ocupadas para este día
   </p>
 
-  <!-- COMENTARIO -->
   <label>Comentario</label>
   <textarea 
     [(ngModel)]="appointment.comment" 
@@ -59,21 +50,16 @@
     placeholder="Describe brevemente tu asesoría">
   </textarea>
 
-  <!-- MODALIDAD -->
   <label>Modalidad</label>
-  <select 
-    [(ngModel)]="appointment.mode" 
-    name="mode">
-
+  <select [(ngModel)]="appointment.mode" name="mode">
     <option value="Virtual">Virtual</option>
     <option value="Presencial">Presencial</option>
   </select>
 
-  <!-- BOTÓN -->
   <button 
     class="btn-primary" 
     type="submit"
-    [disabled]="availableHours.length === 0">
+    [disabled]="noSchedule">
 
     Agendar
 

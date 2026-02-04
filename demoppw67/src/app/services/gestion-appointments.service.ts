@@ -13,18 +13,23 @@ export class GestionAppointments {
   constructor(private http: HttpClient){}
 
   // ================================
-  // LISTAR TODAS LAS ASESORÍAS
+  // LISTAR TODAS (REPORTES + LISTAS)
   // ================================
-  getAppointments(): Observable<Appointment[]> {
+  listar(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.urlBase + "/appointments");
   }
 
+  // 👉 alias para no romper componentes viejos
+  getAppointments(): Observable<Appointment[]> {
+    return this.listar();
+  }
+
   // ================================
-  // LISTAR ASESORÍAS DEL USUARIO (CLIENTE)
+  // POR CLIENTE
   // ================================
   getAppointmentsByClient(clientId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(
-      this.urlBase + `/appointments/client/${clientId}`
+      `${this.urlBase}/appointments/client/${clientId}`
     );
   }
 
@@ -58,7 +63,7 @@ export class GestionAppointments {
   }
 
   // ================================
-  // OBTENER POR ID
+  // POR ID
   // ================================
   getById(id: number): Observable<Appointment> {
     return this.http.get<Appointment>(
@@ -70,9 +75,11 @@ export class GestionAppointments {
   // HORAS DISPONIBLES
   // ================================
   getAvailableHours(programmerId: number, date: string): Observable<string[]> {
+
     return this.http.get<string[]>(
-      this.urlBase + `/appointments/available?programmerId=${programmerId}&date=${date}`
+      `${this.urlBase}/appointments/available?programmerId=${programmerId}&date=${date}`
     );
+
   }
 
 }

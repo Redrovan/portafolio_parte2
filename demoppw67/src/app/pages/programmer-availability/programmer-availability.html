@@ -1,0 +1,104 @@
+<div class="page-container">
+
+  <app-back-button></app-back-button>
+
+  <div class="header">
+    <h1>Mi Disponibilidad</h1>
+    <p class="subtitle">
+      Configura tus horarios de atención
+    </p>
+  </div>
+
+  <!-- FORMULARIO -->
+
+  <div class="form-container">
+
+    <div class="form-group">
+      <label>Día</label>
+      <select [(ngModel)]="newAvailability.day">
+        <option value="">Seleccione día</option>
+        <option>Lunes</option>
+        <option>Martes</option>
+        <option>Miércoles</option>
+        <option>Jueves</option>
+        <option>Viernes</option>
+        <option>Sábado</option>
+        <option>Domingo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Hora inicio</label>
+      <input type="time" [(ngModel)]="newAvailability.startTime">
+    </div>
+
+    <div class="form-group">
+      <label>Hora fin</label>
+      <input type="time" [(ngModel)]="newAvailability.endTime">
+    </div>
+
+    <div class="form-group">
+      <label>Modalidad</label>
+      <select [(ngModel)]="newAvailability.mode">
+        <option value="ONLINE">Online</option>
+        <option value="PRESENCIAL">Presencial</option>
+      </select>
+    </div>
+
+    <button class="btn-save" (click)="guardar()">
+
+      {{ editMode ? 'Actualizar horario' : 'Guardar horario' }}
+
+    </button>
+
+  </div>
+
+  <!-- TABLA -->
+
+  <table class="availability-table">
+
+    <thead>
+      <tr>
+        <th>Día</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Modalidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let a of list">
+
+        <td>{{ a.day }}</td>
+        <td>{{ a.startTime }}</td>
+        <td>{{ a.endTime }}</td>
+
+        <td>
+          <span 
+            class="mode-tag"
+            [ngClass]="a.mode === 'ONLINE' ? 'online' : 'presencial'">
+            {{ a.mode }}
+          </span>
+        </td>
+
+        <td class="actions">
+
+          <button class="btn-edit" (click)="editar(a)">
+            Editar
+          </button>
+
+          <button class="btn-delete" (click)="eliminar(a.id)">
+            Eliminar
+          </button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

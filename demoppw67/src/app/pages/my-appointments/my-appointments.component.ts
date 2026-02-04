@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { BackButtonComponent } from '../back-button/back-button';
 import { GestionAppointments } from '../../services/gestion-appointments.service';
 import { AuthService } from '../../services/auth.service';
 import { Appointment } from '../../domain/models';
@@ -8,8 +8,9 @@ import { Appointment } from '../../domain/models';
 @Component({
   standalone: true,
   selector: 'app-my-appointments',
-  imports: [CommonModule],
-  templateUrl: './my-appointments.component.html'
+  imports: [CommonModule, BackButtonComponent],
+  templateUrl: './my-appointments.component.html',
+  styleUrls: ['./my-appointments.component.scss']
 })
 export class MyAppointmentsComponent implements OnInit {
 
@@ -46,12 +47,16 @@ export class MyAppointmentsComponent implements OnInit {
   }
 
   aprobar(a: Appointment) {
+
     a.status = { id: 2, name: 'APPROVED' };
+
     this.appointmentService.update(a).subscribe();
   }
 
   cancelar(a: Appointment) {
+
     a.status = { id: 3, name: 'REJECTED' };
+
     this.appointmentService.update(a).subscribe();
   }
 

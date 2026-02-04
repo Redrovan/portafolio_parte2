@@ -23,22 +23,34 @@ public class GestionAppointment {
 
     // CREAR
     public void guardar(Appointment a) throws Exception {
+
         if (a == null) throw new Exception("Appointment inválida");
 
         if (a.getClient() == null || a.getProgrammer() == null)
-            throw new Exception("Cliente y Programador son obligatorios");
+            throw new Exception("Cliente y Programador obligatorios");
 
         if (a.getDate() == null || a.getTime() == null)
-            throw new Exception("Fecha y hora son obligatorias");
+            throw new Exception("Fecha y hora obligatorias");
 
         if (a.getStatus() == null)
-            throw new Exception("Estado es obligatorio");
+            throw new Exception("Estado obligatorio");
 
-        // Fecha de creación automática
+        // ❗ SOLO BLOQUEA ESA HORA
+        boolean ocupado = appointmentDAO.exists(
+                a.getProgrammer().getId(),
+                a.getDate(),
+                a.getTime()
+        );
+
+        if (ocupado) {
+            throw new Exception("Horario ya ocupado");
+        }
+
         a.setCreatedAt(LocalDate.now());
 
         appointmentDAO.insert(a);
     }
+
 
     public Appointment buscar(Long id) throws Exception {
         if (id == null || id <= 0) {

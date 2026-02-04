@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { GestionAvailability } from '../../services/gestion-availability.service';
+import { AvailabilityService } from '../../services/availability.service';
 import { Availability } from '../../domain/models';
 
 @Component({
-  selector: 'app-list-availability',
   standalone: true,
+  selector: 'app-list-availability',
   imports: [CommonModule],
   templateUrl: './list-availability.component.html'
 })
@@ -14,16 +14,12 @@ export class ListAvailabilityComponent implements OnInit {
 
   list: Availability[] = [];
 
-  constructor(private service: GestionAvailability) {}
+  constructor(private service: AvailabilityService) {}
 
   ngOnInit(): void {
-    this.load();
-  }
-
-  load() {
     this.service.listar().subscribe({
-      next: (data) => this.list = data,
-      error: (err) => console.error(err)
+      next: (data: Availability[]) => this.list = data,
+      error: err => console.error(err)
     });
   }
 }

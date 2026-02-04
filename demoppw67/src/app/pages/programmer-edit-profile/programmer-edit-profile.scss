@@ -1,0 +1,43 @@
+.portfolio-edit-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: rgba(255,255,255,0.06);
+  padding: 30px;
+  border-radius: 14px;
+  color: white;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.btn-save {
+  width: 100%;
+  padding: 12px;
+  background: #3b82f6;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background: #2563eb;
+}

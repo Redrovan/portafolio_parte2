@@ -103,16 +103,21 @@ public class UserService {
     @GET
     @Path("programmers")
     public Response getProgrammers() {
+
         try {
-            return Response.ok(
-                    gu.getUsersByRole(Role.PROGRAMMER)
-            ).build();
+            List<User> programmers = gu.getUsersByRole(Role.PROGRAMMER);
+            return Response.ok(programmers).build();
+
         } catch (Exception e) {
-            return Response.serverError()
-                    .entity("Error al obtener programadores")
+
+            e.printStackTrace(); // 👈 para ver error real en consola
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error al obtener programadores: " + e.getMessage())
                     .build();
         }
     }
+
 
     // ===============================
     // ADMIN → CREAR PROGRAMADOR

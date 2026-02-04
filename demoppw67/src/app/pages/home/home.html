@@ -82,47 +82,42 @@
 
   </div>
 
-  <!-- ===================== -->
-  <!-- PROGRAMADOR -->
-  <!-- ===================== -->
+<!-- ===================== -->
+<!-- PROGRAMADOR -->
+<!-- ===================== -->
 
-  <div *ngIf="authUser?.role === 'PROGRAMMER'">
+<div *ngIf="authUser?.role === 'PROGRAMMER'">
 
-    <h2 class="section-title">Mi Panel de Programador</h2>
+  <h2 class="section-title">Mi Panel de Programador</h2>
 
-    <div class="cards">
+  <div class="cards">
 
-      <div class="card-default">
-        <h3>Mi Portafolio</h3>
-        <button class="btn-primary" routerLink="/my-portfolio">
-          Ver / Editar
-        </button>
-      </div>
+    <!-- 👉 TODO EL PORTAFOLIO Y PROYECTOS AQUÍ -->
+    <div class="card-default">
+      <h3>Mi Portafolio</h3>
+      <button class="btn-primary" routerLink="/programmer/projects">
+        Ver / Editar
+      </button>
+    </div>
 
-      <div class="card-default">
-        <h3>Mis Proyectos</h3>
-        <button class="btn-primary" routerLink="/my-projects">
-          Gestionar
-        </button>
-      </div>
+    <div class="card-default">
+      <h3>Disponibilidad</h3>
+      <button class="btn-primary" routerLink="/programmer/availability/create">
+        Configurar horarios
+      </button>
+    </div>
 
-      <div class="card-default">
-        <h3>Disponibilidad</h3>
-        <button class="btn-primary" routerLink="/my-availability">
-          Configurar horarios
-        </button>
-      </div>
-
-      <div class="card-default">
-        <h3>Asesorías recibidas</h3>
-        <button class="btn-primary" routerLink="/appointments/my">
-          Ver solicitudes
-        </button>
-      </div>
-
+    <div class="card-default">
+      <h3>Asesorías recibidas</h3>
+      <button class="btn-primary" routerLink="/appointments/my">
+        Ver solicitudes
+      </button>
     </div>
 
   </div>
+
+</div>
+
 
   <!-- ===================== -->
   <!-- ADMIN -->

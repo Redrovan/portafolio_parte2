@@ -65,7 +65,7 @@ export class AdminEditProgrammerComponent implements OnInit {
 
   guardar() {
 
-    this.userService.update(this.programmer).subscribe({
+this.userService.updateUser(this.programmer).subscribe({
       next: () => {
         alert('Programador actualizado');
         this.router.navigate(['/admin/programmers']);

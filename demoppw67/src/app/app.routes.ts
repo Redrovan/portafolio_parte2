@@ -6,6 +6,7 @@ import { AppointmentListComponent } from './components/list-appointment/appointm
 import { AppointmentStatusComponent } from './components/list-appointment-status/appointment-status.component';
 import { CrearPersonaComponent } from './components/crear-persona/crear-persona';
 import { EditarPersona } from './components/editar-persona/editar-persona';
+
 import { CreateAvailabilityComponent } from './components/create-availability/create-availability.component';
 import { ListAvailabilityComponent } from './components/list-availability/list-availability.component';
 
@@ -18,6 +19,7 @@ import { ProgrammerGuard } from './guards/programmer.guard';
 import { loginComponent } from './pages/login/login';
 
 import { ProgrammerPortfolioComponent } from './pages/portfolio-programmer/programmer-portfolio';
+import { ProgrammerEditProfileComponent } from './pages/programmer-edit-profile/programmer-edit-profile';
 
 import { CreateAppointmentComponent } from './pages/create-appointment/create-appointment.component';
 import { ProgrammerAppointmentsComponent } from './pages/programmer-appointments/programmer-appointments';
@@ -26,6 +28,16 @@ import { MyAppointmentsComponent } from './pages/my-appointments/my-appointments
 import { AdminProgrammersComponent } from './pages/admin-programmers/admin-programmers.component';
 import { AdminCreateProgrammerComponent } from './pages/admin-create-programmer/admin-create-programmer';  
 import { AdminEditProgrammerComponent } from './pages/admin-edit-programmer/admin-edit-programmer';
+
+import { ProgrammerProjectsComponent } from './pages/programmer-projects/programmer-projects';
+
+import { ProgrammerAvailabilityComponent } from './pages/programmer-availability/programmer-availability';
+
+import { AdminReportsComponent } from './pages/reporte/admin-reports.component';  
+
+import { AdminReportProgrammerComponent } from './pages/reporte/admin-report-programmer.component';
+
+import { TestNotificationsComponent } from './pages/test-notifications/test-notifications';
 
 export const routes: Routes = [
 
@@ -51,7 +63,7 @@ export const routes: Routes = [
   { path: 'appointment-status/listado', component: AppointmentStatusComponent },
 
   // =========================
-  // DISPONIBILIDAD
+  // DISPONIBILIDAD (GENERAL)
   // =========================
   { path: 'availability/crear', component: CreateAvailabilityComponent },
   { path: 'availability/list', component: ListAvailabilityComponent },
@@ -65,21 +77,18 @@ export const routes: Routes = [
     canActivate: [AdminGuard]
   },
 
-  // 👉 PRIMERO EDITAR (más específica)
   {
     path: 'admin/programmers/edit/:id',
     component: AdminEditProgrammerComponent,
     canActivate: [AdminGuard]
   },
 
-  // 👉 LUEGO CREAR
   {
     path: 'admin/programmers/create',
     component: AdminCreateProgrammerComponent,
     canActivate: [AdminGuard]
   },
 
-  // 👉 LUEGO LISTAR
   {
     path: 'admin/programmers',
     component: AdminProgrammersComponent,
@@ -101,6 +110,31 @@ export const routes: Routes = [
     canActivate: [ProgrammerGuard]
   },
 
+  {
+    path: 'programmer/profile/edit',
+    component: ProgrammerEditProfileComponent,
+    canActivate: [ProgrammerGuard]
+  },
+
+  {
+    path: 'programmer/projects',
+    component: ProgrammerProjectsComponent,
+    canActivate: [ProgrammerGuard]
+  },
+
+  //  DISPONIBILIDAD DEL PROGRAMADOR (recomendado)
+  {
+    path: 'programmer/availability',
+    component: ListAvailabilityComponent,
+    canActivate: [ProgrammerGuard]
+  },
+
+  {
+    path: 'programmer/availability/create',
+    component: ProgrammerAvailabilityComponent,
+    canActivate: [ProgrammerGuard]
+  },
+
   // =========================
   // USUARIO
   // =========================
@@ -108,13 +142,19 @@ export const routes: Routes = [
   { path: 'appointments/my', component: MyAppointmentsComponent },
 
   // =========================
-  // PORTFOLIO
+  // PORTFOLIO PÚBLICO
   // =========================
   {
     path: 'portfolio/:id',
     component: ProgrammerPortfolioComponent
   },
 
+  { path: 'admin/reports', component: AdminReportsComponent, canActivate: [AdminGuard] },
+
+  { path: 'admin/reports/programmer/:id', component: AdminReportProgrammerComponent, canActivate: [AdminGuard] },
+
+
+  { path: 'test-notifications', component: TestNotificationsComponent },
   // =========================
   // NOT FOUND
   // =========================

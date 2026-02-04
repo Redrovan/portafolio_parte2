@@ -1,0 +1,66 @@
+<div class="report-container">
+
+  <app-back-button></app-back-button>
+
+
+  <h2>📊 Reporte del Programador</h2>
+
+  <!-- ===== BOTÓN PDF ===== -->
+
+  <div style="margin-bottom: 15px;">
+    <button (click)="exportPDF()">📄 Descargar PDF</button>
+  </div>
+
+  <!-- ===== RESUMEN ===== -->
+
+  <div class="summary-cards">
+
+    <div class="card total">
+      <h3>Total Asesorías</h3>
+      <p>{{ total }}</p>
+    </div>
+
+    <div class="card pending">
+      <h3>Pendientes</h3>
+      <p>{{ pending }}</p>
+    </div>
+
+    <div class="card approved">
+      <h3>Aprobadas</h3>
+      <p>{{ approved }}</p>
+    </div>
+
+    <div class="card rejected">
+      <h3>Rechazadas</h3>
+      <p>{{ rejected }}</p>
+    </div>
+
+  </div>
+
+  <!-- ===== LISTADO ===== -->
+
+  <h3>Historial de asesorías</h3>
+
+  <table class="report-table">
+
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Cliente</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of appointments">
+        <td>{{ a.date }}</td>
+        <td>{{ a.time }}</td>
+        <td>{{ a.client.persona?.nombre }}</td>
+        <td>{{ a.status.name }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

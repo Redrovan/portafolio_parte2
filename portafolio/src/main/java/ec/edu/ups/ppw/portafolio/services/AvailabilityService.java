@@ -5,6 +5,7 @@ import java.util.List;
 
 import ec.edu.ups.ppw.portafolio.bussines.GestionAvailability;
 import ec.edu.ups.ppw.portafolio.model.Availability;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -17,89 +18,107 @@ public class AvailabilityService {
     @Inject
     private GestionAvailability ga;
 
+    // ============================
+    // LISTAR TODO
+    // ============================
     @GET
-    public Response getListaAvailability() {
-        List<Availability> listado = ga.getAvailabilities();
-        return Response.ok(listado).build();
+    public Response listar() {
+        return Response.ok(ga.getAll()).build();
     }
 
+    // ============================
+    // LISTAR POR PROGRAMADOR 🔥
+    // ============================
+    @GET
+    @Path("programmer/{id}")
+    public Response listarPorProgramador(@PathParam("id") Long id) {
+
+        try {
+            List<Availability> list = ga.getByProgrammer(id);
+            return Response.ok(list).build();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+        }
+    }
+
+    // ============================
+    // OBTENER POR ID
+    // ============================
     @GET
     @Path("{id}")
-    public Response getAvailability(@PathParam("id") Long id) {
-        try {
-            Availability a = ga.getAvailability(id);
+    public Response get(@PathParam("id") Long id) {
 
-            if (a == null) {
-                return Response.status(Response.Status.NOT_FOUND)
-                        .entity(new ApiError(
-                                404,
-                                "No encontrado",
-                                "Availability con ID " + id + " no encontrada"))
-                        .build();
-            }
+        try {
+            Availability a = ga.getById(id);
+
+            if (a == null)
+                return Response.status(Response.Status.NOT_FOUND).build();
 
             return Response.ok(a).build();
 
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ApiError(
-                            500,
-                            "Error interno",
-                            e.getMessage()))
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
                     .build();
         }
     }
 
+    // ============================
+    // CREAR
+    // ============================
     @POST
-    public Response crearAvailability(Availability availability, @Context UriInfo uriInfo) {
+    public Response crear(Availability a, @Context UriInfo uriInfo) {
+
         try {
-            ga.crearAvailability(availability);
+            ga.crear(a);
 
-            URI location = uriInfo.getAbsolutePathBuilder()
-                    .path(String.valueOf(availability.getId()))
+            URI uri = uriInfo.getAbsolutePathBuilder()
+                    .path(String.valueOf(a.getId()))
                     .build();
 
-            return Response.created(location)
-                    .entity(availability)
-                    .build();
+            return Response.created(uri).entity(a).build();
 
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ApiError(
-                            500,
-                            "Error interno",
-                            e.getMessage()))
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
                     .build();
         }
     }
 
+    // ============================
+    // ACTUALIZAR
+    // ============================
     @PUT
-    public Response actualizarAvailability(Availability availability) {
+    public Response actualizar(Availability a) {
+
         try {
-            ga.actualizarAvailability(availability);
-            return Response.ok(availability).build();
+            ga.actualizar(a);
+            return Response.ok(a).build();
+
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new ApiError(
-                            500,
-                            "Error interno",
-                            e.getMessage()))
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
                     .build();
         }
     }
 
+    // ============================
+    // ELIMINAR
+    // ============================
     @DELETE
     @Path("{id}")
-    public Response eliminarAvailability(@PathParam("id") Long id) {
+    public Response eliminar(@PathParam("id") Long id) {
+
         try {
-            ga.eliminarAvailability(id);
+            ga.eliminar(id);
             return Response.noContent().build();
+
         } catch (Exception e) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity(new ApiError(
-                            404,
-                            "No encontrado",
-                            e.getMessage()))
+                    .entity(e.getMessage())
                     .build();
         }
     }

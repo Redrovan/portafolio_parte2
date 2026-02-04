@@ -15,7 +15,9 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {
+
     const stored = localStorage.getItem('user');
+
     if (stored) {
       try {
         this.userSubject.next(JSON.parse(stored));
@@ -23,25 +25,47 @@ export class AuthService {
         this.userSubject.next(null);
       }
     }
+
   }
 
+  // =======================
+  // LOGIN
+  // =======================
   login(email: string, password: string): Observable<UserWithToken> {
+
     return this.http
       .post<UserWithToken>(`${this.baseUrl}/auth/login`, { email, password })
       .pipe(
         tap(user => {
+
           localStorage.setItem('token', user.token);
           localStorage.setItem('user', JSON.stringify(user));
+
+          // 👉 actualizar observable
           this.userSubject.next(user);
+
         })
       );
+
   }
 
+  // =======================
+  // LOGOUT (FIX REAL)
+  // =======================
   logout(): void {
-    localStorage.clear();
+
+    // ❗ NO usar clear (mejor específico)
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    // ❗ emitir null (clave para UI)
     this.userSubject.next(null);
+
   }
 
+  // =======================
+  // HELPERS
+  // =======================
   get user(): UserWithToken | null {
     return this.userSubject.value;
   }
@@ -53,4 +77,5 @@ export class AuthService {
   getToken(): string | null {
     return this.user?.token ?? null;
   }
+
 }
