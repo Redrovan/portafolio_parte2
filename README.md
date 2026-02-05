@@ -62,5 +62,16 @@ Persistencia en base de datos relacional
 
 ---
 
-## 🗂 Estructura General
+##  Estructura General
+
+frontend/
+└── Angular application
+
+backend/
+└── Jakarta EE REST services
+
+database/
+└── SQL scripts
+
+
 
