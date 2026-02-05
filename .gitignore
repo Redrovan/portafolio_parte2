@@ -1,0 +1,23 @@
+# Maven
+target/
+*.class
+
+# WildFly
+standalone/
+deployments/
+
+# Firebase local
+demoppw67/.firebase/
+
+# Secrets / config
+microprofile-config.properties
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
