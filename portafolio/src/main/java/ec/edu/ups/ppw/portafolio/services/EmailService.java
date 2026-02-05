@@ -10,7 +10,7 @@ import java.util.Properties;
 public class EmailService {
 
     private static final String FROM = "robinsonredrovan@gmail.com";
-    private static final String PASSWORD = "hriw iycj entg ttkd"; // contraseña de aplicación
+    private static final String PASSWORD = "hriwiycjentgttkd"; // sin espacios
 
     public void enviarCorreo(String destino, String asunto, String mensaje) {
 
@@ -20,11 +20,12 @@ public class EmailService {
 
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
 
-            // 🔍 DEBUG para ver errores reales
+            // importante para Gmail + WildFly
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
             props.put("mail.debug", "true");
 
             Session session = Session.getInstance(props, new Authenticator() {
@@ -36,19 +37,20 @@ public class EmailService {
 
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(FROM));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino));
+            msg.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(destino)
+            );
             msg.setSubject(asunto);
             msg.setText(mensaje);
 
             Transport.send(msg);
 
-            System.out.println("✅ Correo enviado a: " + destino);
+            System.out.println(" Correo enviado a: " + destino);
 
         } catch (Exception e) {
-
-            System.out.println("❌ ERROR AL ENVIAR CORREO:");
+            System.out.println(" ERROR AL ENVIAR CORREO:");
             e.printStackTrace();
-
         }
     }
 }

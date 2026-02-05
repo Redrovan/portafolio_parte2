@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 export interface NotificationMessage {
   text: string;
   type: 'success' | 'info' | 'error';
-  route?: string;   // 👈 a dónde redirigir
+  route?: string;   //  a dónde redirigir
 }
 
 @Injectable({

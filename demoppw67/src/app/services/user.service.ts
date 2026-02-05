@@ -34,7 +34,7 @@ export class UserService {
   }
 
   // ===============================
-  // ACTUALIZAR PERFIL ✅ (CON ID)
+  // ACTUALIZAR PERFIL  (CON ID)
   // ===============================
   updateUser(user: User): Observable<User> {
 
@@ -43,7 +43,7 @@ export class UserService {
     }
 
     return this.http.put<User>(
-      `${this.api}/${user.id}`,   // 🔥 AQUÍ ESTABA EL PROBLEMA
+      `${this.api}/${user.id}`,   //  AQUÍ ESTABA EL PROBLEMA
       user
     );
   }

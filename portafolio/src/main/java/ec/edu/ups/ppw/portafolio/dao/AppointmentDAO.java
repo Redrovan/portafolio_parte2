@@ -3,6 +3,7 @@ package ec.edu.ups.ppw.portafolio.dao;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -41,45 +42,43 @@ public class AppointmentDAO {
     }
 
     // ============================
-    // ⏰ HORAS OCUPADAS POR FECHA
+    // HORAS OCUPADAS
     // ============================
     public List<LocalTime> findHoursByProgrammerAndDate(Long programmerId, LocalDate date) {
 
-        TypedQuery<LocalTime> q = em.createQuery(
+        return em.createQuery(
                 "SELECT a.time FROM Appointment a " +
                 "WHERE a.programmer.id = :pid " +
                 "AND a.date = :date",
                 LocalTime.class
-        );
-
-        q.setParameter("pid", programmerId);
-        q.setParameter("date", date);
-
-        return q.getResultList();
+        )
+        .setParameter("pid", programmerId)
+        .setParameter("date", date)
+        .getResultList();
     }
 
     // ============================
-    // 🚫 BLOQUEAR HORA REPETIDA
+    // BLOQUEAR REPETIDOS
     // ============================
     public boolean exists(Long programmerId, LocalDate date, LocalTime time) {
 
-        TypedQuery<Long> q = em.createQuery(
+        Long total = em.createQuery(
                 "SELECT COUNT(a) FROM Appointment a " +
                 "WHERE a.programmer.id = :pid " +
                 "AND a.date = :date " +
                 "AND a.time = :time",
                 Long.class
-        );
+        )
+        .setParameter("pid", programmerId)
+        .setParameter("date", date)
+        .setParameter("time", time)
+        .getSingleResult();
 
-        q.setParameter("pid", programmerId);
-        q.setParameter("date", date);
-        q.setParameter("time", time);
-
-        return q.getSingleResult() > 0;
+        return total > 0;
     }
 
     // ============================
-    // 📊 REPORTE POR ESTADO
+    //  REPORTE POR ESTADO
     // ============================
     public List<Object[]> countByStatus() {
 
@@ -92,7 +91,7 @@ public class AppointmentDAO {
     }
 
     // ============================
-    // 📊 REPORTE POR PROGRAMADOR
+    //  REPORTE POR PROGRAMADOR
     // ============================
     public List<Object[]> countByProgrammer() {
 
@@ -102,5 +101,27 @@ public class AppointmentDAO {
                 "GROUP BY a.programmer.persona.nombre",
                 Object[].class
         ).getResultList();
+    }
+
+    // ============================
+    //  CITAS PRÓXIMAS (RECORDATORIO)
+    // ============================
+    public List<Appointment> findAppointmentsStartingSoon(
+            LocalDate fecha,
+            LocalTime desde,
+            LocalTime hasta
+    ) {
+
+        return em.createQuery(
+                "SELECT a FROM Appointment a " +
+                "WHERE a.date = :fecha " +
+                "AND a.time BETWEEN :desde AND :hasta " +
+                "AND a.status.name = 'APPROVED'",
+                Appointment.class
+        )
+        .setParameter("fecha", fecha)
+        .setParameter("desde", desde)
+        .setParameter("hasta", hasta)
+        .getResultList();
     }
 }

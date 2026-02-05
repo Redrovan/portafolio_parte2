@@ -28,7 +28,8 @@
     <!-- ========================= -->
     <dependencies>
 
-        <!-- Jakarta EE API -->
+        <!-- ================= JAKARTA EE ================= -->
+
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
@@ -36,7 +37,8 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Hibernate (JPA provider) -->
+        <!-- ================= HIBERNATE ================= -->
+
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -44,7 +46,8 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- H2 Database (pruebas locales) -->
+        <!-- ================= H2 ================= -->
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -76,14 +79,12 @@
 
         <!-- ================= JSON ================= -->
 
-        <!-- JSON-B -->
         <dependency>
             <groupId>jakarta.json.bind</groupId>
             <artifactId>jakarta.json.bind-api</artifactId>
             <version>3.0.1</version>
         </dependency>
 
-        <!-- JSON-P -->
         <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
@@ -98,14 +99,43 @@
             <version>4.0.1</version>
         </dependency>
 
-        <!-- ================= EMAIL (NUEVO) ================= -->
+        <!-- ================= EMAIL ================= -->
 
-        <!-- Jakarta Mail para notificaciones por correo -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>
         </dependency>
+
+        <!-- ================= TWILIO ================= -->
+
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>9.16.0</version>
+        </dependency>
+
+        <!-- ================================================== -->
+        <!-- OPENAPI / SWAGGER (NECESARIO PARA WILDFLY COMMUNITY) -->
+        <!-- ================================================== -->
+
+        <!-- API OpenAPI -->
+
+        <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <version>3.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- IMPLEMENTACIÓN SmallRye (la que faltaba) -->
+
+        <dependency>
+    <groupId>org.eclipse.microprofile.openapi</groupId>
+    <artifactId>microprofile-openapi-api</artifactId>
+    <version>3.1</version>
+    <scope>provided</scope>
+</dependency>
 
     </dependencies>
 
@@ -113,11 +143,13 @@
     <!-- BUILD -->
     <!-- ========================= -->
     <build>
+
         <finalName>portafolio</finalName>
 
         <plugins>
 
-            <!-- Compilador -->
+            <!-- COMPILADOR -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -129,6 +161,7 @@
             </plugin>
 
             <!-- WAR -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -139,6 +172,7 @@
             </plugin>
 
         </plugins>
+
     </build>
 
 </project>

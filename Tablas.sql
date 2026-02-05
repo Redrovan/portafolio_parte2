@@ -134,72 +134,83 @@ CREATE TABLE AVAILABILITY (
         REFERENCES TBL_USER(usr_id)
 );
 
-select * froM TBL_PROGRAMMER_PROFILE;
+select * froM tbl_user;
 
+------------------------------------------
 INSERT INTO TBL_PERSONA (per_cedula, per_nombre, per_direccion)
 VALUES
-('0102030405', 'Robinson Redrovan', 'Av. Universitaria, Quito'),
-('0102030406', 'Ana Pérez', 'Calle 10, Guayaquil'),
-('0102030407', 'Carlos Gómez', 'Av. Amazonas, Quito'),
-('0102030408', 'María Torres', 'Calle 5, Cuenca');
+('1100000001', 'Zoila Chiqui', 'Cuenca - Ecuador'),
+('1100000002', 'Robinson Redrovan', 'Quito - Ecuador'),
+('1100000003', 'Stalin Redrovan', 'Cuenca - Ecuador');
+
+-------------------------------------------------
+INSERT INTO TBL_ESPECIALIDAD (esp_nombre, esp_descripcion)
+VALUES
+('Fullstack', 'Desarrollo completo frontend y backend');
+--
+
+
+SELECT * FROM TBL_PROJECT;
+
+SELECT * FROM AVAILABILITY;
+
+SELECT programmer_id, app_date, app_time 
+FROM TBL_APPOINTMENT;
+
+UPDATE TBL_APPOINTMENT_STATUS
+SET st_name = 'PENDING'
+WHERE st_name = 'PENDIENTE';
+
+UPDATE TBL_APPOINTMENT_STATUS
+SET st_name = 'APPROVED'
+WHERE st_name = 'CONFIRMADA';
+
+UPDATE TBL_APPOINTMENT_STATUS
+SET st_name = 'REJECTED'
+WHERE st_name = 'RECHAZADA';
+
+SELECT * FROM TBL_APPOINTMENT_STATUS;
+
+
+UPDATE TBL_APPOINTMENT a
+SET st_id = s.st_id
+FROM TBL_APPOINTMENT_STATUS s
+WHERE a.st_id = s.st_id;
+
+
+SELECT * FROM notifications;
 
 
 INSERT INTO TBL_ESPECIALIDAD (esp_nombre, esp_descripcion)
 VALUES
-('Frontend', 'Desarrollo de interfaces con Angular, React y Vue'),
-('Backend', 'APIs REST con Node.js, Java y Python'),
-('Base de Datos', 'Modelado y administración de bases de datos'),
-('Fullstack', 'Desarrollo completo frontend + backend');
+('Fullstack', 'Desarrollo completo frontend y backend'),
+
+('Backend Java', 'APIs REST, Spring Boot, JPA, bases de datos'),
+
+('Frontend Angular', 'Interfaces modernas con Angular y UX'),
+
+('Frontend React', 'Aplicaciones web con React y consumo de APIs'),
+
+('Mobile Developer', 'Aplicaciones móviles Android y Flutter'),
+
+('Data Science', 'Análisis de datos, Python, Machine Learning'),
+
+('DevOps', 'CI/CD, Docker, servidores y despliegues'),
+
+('Cybersecurity', 'Seguridad informática y protección de sistemas'),
+
+('Database Administrator', 'Gestión y optimización de bases de datos'),
+
+('Cloud Engineer', 'Servicios en la nube AWS, Azure, Google Cloud');
+
+DELETE FROM TBL_ESPECIALIDAD
+WHERE esp_nombre = 'Fullstack'
+  AND esp_descripcion = 'Desarrollo completo frontend y backend';
 
 
-INSERT INTO TBL_USER (usr_email, usr_password, usr_role, usr_active, usr_photo_url, usr_phone, usr_social_links, per_cedula, esp_id)
-VALUES
-('admin@portafolio.com', 'admin123', 'ADMIN', TRUE, 'https://i.imgur.com/admin.png', '0991234567', 'https://linkedin.com/admin', '0102030405', 4),
+SELECT usr_id, usr_email, usr_phone
+FROM TBL_USER;
 
-('dev_front@portafolio.com', 'dev123', 'PROGRAMMER', TRUE, 'https://i.imgur.com/dev.png', '0992345678', 'https://github.com/dev_front', '0102030406', 1),
-
-('dev_back@portafolio.com', 'dev123', 'PROGRAMMER', TRUE, 'https://i.imgur.com/dev2.png', '0993456789', 'https://github.com/dev_back', '0102030407', 2),
-
-('user1@portafolio.com', 'user123', 'USER', TRUE, 'https://i.imgur.com/user.png', '0994567890', 'https://facebook.com/user1', '0102030408', NULL);
-
-
-INSERT INTO TBL_PROGRAMMER_PROFILE (pp_bio, pp_experience, pp_photo_url, pp_social_links, usr_id)
-VALUES
-('Frontend Developer especializado en Angular y React', 3, 'https://i.imgur.com/dev.png', 'https://linkedin.com/dev_front', 2),
-
-('Backend Developer especializado en Node.js y Java', 4, 'https://i.imgur.com/dev2.png', 'https://linkedin.com/dev_back', 3);
-
-INSERT INTO TBL_PARTICIPATION_TYPE (pt_name, pt_description)
-VALUES
-('Frontend', 'Desarrollo de interfaz'),
-('Backend', 'Desarrollo de APIs'),
-('Base de Datos', 'Modelado y administración DB');
-
-
-INSERT INTO TBL_PROJECT (pro_name, pro_description, pro_repo_url, pro_deploy_url, pro_technologies, pro_section, pro_active, pt_id, usr_id)
-VALUES
-('Portafolio Web', 'Portafolio personal con proyectos', 'https://github.com/dev_front/portfolio', 'https://dev_front.vercel.app', 'Angular, Tailwind, Firebase', 'Academico', TRUE, 1, 2),
-
-('API de Citas', 'API REST para gestionar citas', 'https://github.com/dev_back/appointments-api', 'https://api.dev_back.com', 'Java, JAX-RS, PostgreSQL', 'Laboral', TRUE, 2, 3);
-
-
-INSERT INTO TBL_APPOINTMENT_STATUS (st_name)
-VALUES
-('PENDIENTE'),
-('CONFIRMADA'),
-('RECHAZADA');
-
-INSERT INTO TBL_APPOINTMENT (client_id, programmer_id, app_date, app_time, st_id, app_comment, app_mode, app_created_at)
-VALUES
-(4, 2, '2026-02-05', '10:00', 1, 'Quiero una asesoría sobre Angular', 'Virtual', '2026-01-21'),
-(4, 3, '2026-02-06', '15:00', 1, 'Necesito ayuda con APIs REST', 'Presencial', '2026-01-21');
-
-
-INSERT INTO AVAILABILITY (day_name, start_time, end_time, mode, programmer_id)
-VALUES
-('Lunes', '09:00', '12:00', 'Virtual', 2),
-('Miércoles', '14:00', '17:00', 'Presencial', 2),
-('Martes', '10:00', '13:00', 'Virtual', 3),
-('Jueves', '15:00', '18:00', 'Presencial', 3);
-
-
+UPDATE TBL_USER
+SET usr_phone = '+593' || SUBSTRING(usr_phone FROM 2)
+WHERE usr_phone IS NOT NULL;

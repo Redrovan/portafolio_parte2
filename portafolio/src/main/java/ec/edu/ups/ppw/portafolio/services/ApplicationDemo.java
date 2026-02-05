@@ -3,7 +3,7 @@ package ec.edu.ups.ppw.portafolio.services;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("api")
+@ApplicationPath("/api")
 public class ApplicationDemo  extends Application{
 
 }

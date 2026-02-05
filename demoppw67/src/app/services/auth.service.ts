@@ -41,7 +41,6 @@ export class AuthService {
           localStorage.setItem('token', user.token);
           localStorage.setItem('user', JSON.stringify(user));
 
-          // 👉 actualizar observable
           this.userSubject.next(user);
 
         })
@@ -54,11 +53,9 @@ export class AuthService {
   // =======================
   logout(): void {
 
-    // ❗ NO usar clear (mejor específico)
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 
-    // ❗ emitir null (clave para UI)
     this.userSubject.next(null);
 
   }
